@@ -578,7 +578,7 @@
           "x": 657.2619492261466,
           "y": 55.18034202940481
         },
-        "selected": true,
+        "selected": false,
         "type": "genericNode"
       },
       {
@@ -610,7 +610,7 @@
             ],
             "frozen": false,
             "icon": "Groq",
-            "last_updated": "2026-05-26T01:24:02.809Z",
+            "last_updated": "2026-05-26T01:49:11.563Z",
             "legacy": false,
             "lf_version": "1.8.2",
             "metadata": {
@@ -705,7 +705,7 @@
                 "title_case": false,
                 "track_in_telemetry": false,
                 "type": "str",
-                "value": "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"
+                "value": ""
               },
               "base_url": {
                 "_input_type": "MessageTextInput",
