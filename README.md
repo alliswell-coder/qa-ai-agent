@@ -1,22 +1,27 @@
 # Agent 1 — QA Test Case Generator
 
 ## About
-AI agent that generates structured test cases 
-from business requirements using LangFlow + OpenAI.
+Tired of writing test cases manually? Paste any 
+requirement and this agent generates structured 
+test cases instantly — covering positive, negative 
+and edge case scenarios.
 
 ## Sample Requirement Used
 Amazon Checkout Flow BRD (see /docs/amazon_checkout_brd.md)
 
-## What Agent Does
-Input  → Paste any requirement
-Output → Structured test cases with ID, scenario, 
-         steps, expected result, priority
+## What It Does
+Input  → Paste any feature requirement
+Output → Structured test cases with:
+         TC ID | Description | Pre-condition | 
+         Steps | Expected Result | Priority | Type
 
-## Live Demo
-[Link to Vercel deployment]
+## Screenshot
+[Add screenshot of output here]
 
 ## Tech Stack
 - LangFlow
-- OpenAI GPT
-- Vercel
+- Groq LLaMA3 (free & fast)
 - GitHub
+
+## Live Demo
+[Coming soon]
