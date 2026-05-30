@@ -1,0 +1,6 @@
+TC ID,Description,Steps,Expected Result,Actual Result,Status,Priority,GitHub Issue_ID
+TC001,Login,User logs in,User logged should be sucessful ,User is logged in,PASS,High,
+TC002,Add to Cart,User adds item to cart,Item should be added to cart,Item is added to cart,PASS,High,
+TC003 ,Proceed to Checkout,"User clicks ""Proceed to Checkout""",Cart Review page loads,404 Error,FAIL,High,https://github.com/alliswell-coder/qa-ai-agent/issues/7
+TC004,Empty Cart,User removes all items from cart,"""Your cart is empty"" message should  appears",Cart count still shows 1 after removal ,FAIL,High,https://github.com/alliswell-coder/qa-ai-agent/issues/8
+TC0046,Saved Credit/Debit Card,User views payment page,Saved card shpuld displayed,No saved card displayed - page shows empty,FAIL,High,https://github.com/alliswell-coder/qa-ai-agent/issues/9

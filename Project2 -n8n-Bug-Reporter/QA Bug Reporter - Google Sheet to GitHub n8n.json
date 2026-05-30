@@ -1,0 +1,294 @@
+{
+  "name": "QA Bug Reporter - Google Sheet to GitHub",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1T200ggf5qe3pOtN-ZUIJ7kmqM28iHLy1GKKpdXqr3tw",
+          "mode": "list",
+          "cachedResultName": "Project2 -n8n-Bug-Reporter:",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1T200ggf5qe3pOtN-ZUIJ7kmqM28iHLy1GKKpdXqr3tw/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1314753977,
+          "mode": "list",
+          "cachedResultName": "Test Execution",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1T200ggf5qe3pOtN-ZUIJ7kmqM28iHLy1GKKpdXqr3tw/edit#gid=1314753977"
+        },
+        "event": "rowAdded",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        -528,
+        -160
+      ],
+      "id": "f60d9055-3d13-4f47-830c-11dc779fee37",
+      "name": "Google Sheets Trigger",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "3MRue7d9eol3SW4v",
+          "name": "Google Sheets Trigger OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "cbd7df74-c374-4ad1-b7bd-f5a9b71482bd",
+              "leftValue": "={{ $json.Status }}",
+              "rightValue": "=FAIL",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        -320,
+        -160
+      ],
+      "id": "b0129a4d-6d8b-42b3-ab77-75dbe820997c",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "owner": {
+          "__rl": true,
+          "value": "alliswell-coder",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "qa-ai-agent",
+          "mode": "name"
+        },
+        "title": "=[BUG] {{ $json.Description }}",
+        "body": "=TC ID: {{ $json['TC ID'] }}\nSteps: {{ $json.Steps }}\nExpected Result: {{ $json['Expected Result'] }}\nActual Result: {{ $json['Actual Result'] }}\nPriority: {{ $json.Priority }}",
+        "labels": [],
+        "assignees": []
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1.1,
+      "position": [
+        -112,
+        -160
+      ],
+      "id": "f168a692-5195-48bd-a63c-da8648d87ea9",
+      "name": "Create an issue",
+      "webhookId": "d02056f1-ad1f-4b34-b73c-1d76b4b6ed54",
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "vz9vWj4zQpMJdE0q",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1T200ggf5qe3pOtN-ZUIJ7kmqM28iHLy1GKKpdXqr3tw",
+          "mode": "list",
+          "cachedResultName": "Project2 -n8n-Bug-Reporter:",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1T200ggf5qe3pOtN-ZUIJ7kmqM28iHLy1GKKpdXqr3tw/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1314753977,
+          "mode": "list",
+          "cachedResultName": "Test Execution",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1T200ggf5qe3pOtN-ZUIJ7kmqM28iHLy1GKKpdXqr3tw/edit#gid=1314753977"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "GitHub Issue_ID": "={{ $json.html_url }}",
+            "TC ID": "={{ $('Filter').item.json['TC ID'] }}"
+          },
+          "matchingColumns": [
+            "TC ID"
+          ],
+          "schema": [
+            {
+              "id": "TC ID",
+              "displayName": "TC ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Description",
+              "displayName": "Description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Steps",
+              "displayName": "Steps",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Expected Result",
+              "displayName": "Expected Result",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Actual Result",
+              "displayName": "Actual Result",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Priority",
+              "displayName": "Priority",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "GitHub Issue_ID",
+              "displayName": "GitHub Issue_ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        96,
+        -160
+      ],
+      "id": "b840e074-af21-4e99-bb6d-b2fb3fb6fb2f",
+      "name": "Update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "M6VHSIiJZ0sjZtKG",
+          "name": "Google Sheets OAuth2 API"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Sheets Trigger": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Create an issue",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create an issue": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "e9a7396d-a4dc-43bd-abc4-35ecafdcbd81",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "05833211aef8fc66eece7baeae474865c45001ec3405bbfda68dfce49ef8dd40"
+  },
+  "id": "4rmhTpFzM9L17YCz",
+  "tags": []
+}
