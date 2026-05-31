@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agent 1 - QA Test Case Generator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 0;
+            border-bottom: 1px solid #333;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 2rem;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .back-link {
+            color: #4a90e2;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s ease;
+        }
+
+        .back-link:hover {
+            color: #5ba3f5;
+            text-decoration: underline;
+        }
+
+        .input-section {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .input-section h2 {
+            margin-bottom: 20px;
+            color: #fff;
+            font-size: 1.5rem;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 150px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 15px;
+            color: #e0e0e0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 1rem;
+            resize: vertical;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #4a90e2;
+        }
+
+        .generate-btn {
+            margin-top: 20px;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .generate-btn:hover {
+            background: linear-gradient(135deg, #8e44ad 0%, #9b59b6 100%);
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(155, 89, 182, 0.4);
+        }
+
+        .output-section {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .output-section h2 {
+            margin-bottom: 20px;
+            color: #fff;
+            font-size: 1.5rem;
+        }
+
+        .output-section h3 {
+            margin: 30px 0 15px 0;
+            color: #9b59b6;
+            font-size: 1.2rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            font-size: 0.85rem;
+        }
+
+        thead {
+            background: rgba(155, 89, 182, 0.2);
+        }
+
+        th {
+            padding: 12px 8px;
+            text-align: left;
+            font-weight: 600;
+            color: #fff;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 10px 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        tbody tr {
+            transition: background 0.2s ease;
+        }
+
+        tbody tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .priority {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .priority.high {
+            background: rgba(231, 76, 60, 0.2);
+            color: #e74c3c;
+            border: 1px solid #e74c3c;
+        }
+
+        .type {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .type.positive {
+            background: rgba(46, 204, 113, 0.2);
+            color: #2ecc71;
+            border: 1px solid #2ecc71;
+        }
+
+        .type.negative {
+            background: rgba(231, 76, 60, 0.2);
+            color: #e74c3c;
+            border: 1px solid #e74c3c;
+        }
+
+        .type.edge {
+            background: rgba(241, 196, 15, 0.2);
+            color: #f39c12;
+            border: 1px solid #f39c12;
+        }
+
+        .powered-by {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(155, 89, 182, 0.1);
+            border: 1px solid rgba(155, 89, 182, 0.3);
+            border-radius: 8px;
+            text-align: center;
+            color: #9b59b6;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            table {
+                font-size: 0.7rem;
+            }
+
+            th, td {
+                padding: 8px 4px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Agent 1 - QA Test Case Generator</h1>
+            <a href="index.html" class="back-link">← Back to Portfolio</a>
+        </header>
+
+        <div class="input-section">
+            <h2>Paste Your Requirements</h2>
+            <textarea placeholder="Paste your requirement or BRD here to generate test cases...
+
+Example: As a user, I want to add items to my cart and proceed to checkout. The system should allow me to add multiple items, remove items, update quantities, and save items for later."></textarea>
+            <button class="generate-btn">Generate Test Cases</button>
+        </div>
+
+        <div class="output-section">
+            <h2>Sample Output: Amazon Checkout Flow Test Cases</h2>
+            
+            <h3>Cart Review Page (TC001-TC015)</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>TC ID</th>
+                        <th>Description</th>
+                        <th>Pre-condition</th>
+                        <th>Steps</th>
+                        <th>Expected Result</th>
+                        <th>Priority</th>
+                        <th>Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>TC001</td>
+                        <td>Login</td>
+                        <td>Valid account exists</td>
+                        <td>User logs in</td>
+                        <td>User is logged in</td>
+                        <td><span class="priority high">High</span></td>
+                        <td><span class="type positive">Positive</span></td>
+                    </tr>
+                    <tr>
+                        <td>TC002</td>
+                        <td>Add to Cart</td>
+                        <td>TC001 - user is logged in</td>
+                        <td>User adds item to cart</td>
+                        <td>Item is added to cart</td>
+                        <td><span class="priority high">High</span></td>
+                        <td><span class="type positive">Positive</span></td>
+                    </tr>
+                    <tr>
+                        <td>TC003</td>
+                        <td>Proceed to Checkout</td>
+                        <td>TC002 - item in cart</td>
+                        <td>User clicks "Proceed to Checkout"</td>
+                        <td>Cart Review page loads</td>
+                        <td><span class="priority high">High</span></td>
+                        <td><span class="type positive">Positive</span></td>
+                    </tr>
+                    <tr>
+                        <td>TC004</td>
+                        <td>Empty Cart</td>
+                        <td>TC002 - item in cart</td>
+                        <td>User removes all items from cart</td>
+                        <td>"Your cart is empty" message appears</td>
+                        <td><span class="priority high">High</span></td>
+                        <td><span class="type positive">Positive</span></td>
+                    </tr>
+                    <tr>
+                        <td>TC005</td>
+                        <td>Remove Item</td>
+                        <td>TC002 - item in cart</td>
+                        <td>User removes item from cart</td>
+                        <td>Item is removed from cart</td>
+                        <td><span class="priority high">High</span></td>
+                        <td><span class="type positive">Positive</span></td>
+                    </tr>
+                    <tr>
+                        <td>TC006</td>
+                        <td>Update Quantity</td>
+                        <td>TC002 - item in cart</td>
+                        <td>User updates quantity of item</td>
+                        <td>Quantity is updated</td>
+                        <td><span class="priority high">High</span></td>
+                        <td><span class="type positive">Positive</span></td>
+                    </tr>
+                    <tr>
+                        <td>TC007</td>
+                        <td>Invalid Quantity</td>
+                        <td>TC002 - item in cart</td>
+                        <td>User enters invalid quantity</td>
+                        <td>Error message appears</td>
+                        <td><span class="priority high">High</span></td>
+                        <td><span class="type negative">Negative</span></td>
+                    </tr>
+                    <tr>
+                        <td>TC008</td>
+                        <td>Saved for Later</td>
+                        <td>TC002 - item in cart</td>
+                        <td>User moves item to Saved for Later list</td>
+                        <td>Item is moved to Saved for Later list</td>
+                        <td><span class="priority high">High</span></td>
+                        <td><span class="type positive">Positive</span></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Delivery Address Page (TC016-TC030)</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>TC ID</th>
+                        <th>Description</th>
+                        <th>Pre-condition</th>
+                        <th>Steps</th>
+                        <th>Expected Result</th>
+                        <th>Priority</th>
+                        <th>Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>TC016</td>
+                        <td>Default Address</td>
+                        <td>TC001 - user logged in</td>
+                        <td>User views delivery address page</td>
+                        <td>Default address is displayed</td>
+                        <td><span class="priority high">High</span></td>
+                        <td><span class="type positive">Positive</span></td>
+                    </tr>
+                    <tr>
+                        <td>TC017</td>
+                        <td>Add New Address</td>
+                        <td>TC001 - user logged in</td>
+                        <td>User adds new address</td>
+                        <td>New address is added</td>
+                        <td><span class="priority high">High</span></td>
+                        <td><span class="type positive">Positive</span></td>
+                    </tr>
+                    <tr>
+                        <td>TC018</td>
+                        <td>Edit Address</td>
+                        <td>TC001 - user logged in</td>
+                        <td>User edits existing address</td>
+                        <td>Address is updated</td>
+                        <td><span class="priority high">High</span></td>
+                        <td><span class="type positive">Positive</span></td>
+                    </tr>
+                    <tr>
+                        <td>TC020</td>
+                        <td>Required Fields Missing</td>
+                        <td>TC001 - user logged in</td>
+                        <td>User saves address with missing fields</td>
+                        <td>Error message appears</td>
+                        <td><span class="priority high">High</span></td>
+                        <td><span class="type negative">Negative</span></td>
+                    </tr>
+                    <tr>
+                        <td>TC021</td>
+                        <td>Invalid ZIP Code</td>
+                        <td>TC001 - user logged in</td>
+                        <td>User enters invalid ZIP</td>
+                        <td>Error message appears</td>
+                        <td><span class="priority high">High</span></td>
+                        <td><span class="type negative">Negative</span></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Payment Method Page (TC046-TC060)</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>TC ID</th>
+                        <th>Description</th>
+                        <th>Pre-condition</th>
+                        <th>Steps</th>
+                        <th>Expected Result</th>
+                        <th>Priority</th>
+                        <th>Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>TC046</td>
+                        <td>Saved Credit/Debit Card</td>
+                        <td>TC001 - user logged in</td>
+                        <td>User views payment page</td>
+                        <td>Saved card displayed</td>
+                        <td><span class="priority high">High</span></td>
+                        <td><span class="type positive">Positive</span></td>
+                    </tr>
+                    <tr>
+                        <td>TC047</td>
+                        <td>Add New Card</td>
+                        <td>TC001 - user logged in</td>
+                        <td>User adds new card</td>
+                        <td>New card added</td>
+                        <td><span class="priority high">High</span></td>
+                        <td><span class="type positive">Positive</span></td>
+                    </tr>
+                    <tr>
+                        <td>TC048</td>
+                        <td>Amazon Gift Card</td>
+                        <td>TC001 - user logged in</td>
+                        <td>User views payment page</td>
+                        <td>Gift card option displayed</td>
+                        <td><span class="priority high">High</span></td>
+                        <td><span class="type positive">Positive</span></td>
+                    </tr>
+                    <tr>
+                        <td>TC050</td>
+                        <td>Expired Card</td>
+                        <td>TC001 - expired card saved</td>
+                        <td>User selects expired card</td>
+                        <td>"Card expired" error shown</td>
+                        <td><span class="priority high">High</span></td>
+                        <td><span class="type negative">Negative</span></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="powered-by">
+                ⚡ Powered by LangFlow + Groq
+            </div>
+        </div>
+    </div>
+</body>
+</html>

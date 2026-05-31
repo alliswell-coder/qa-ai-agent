@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agent 2 - Automated Bug Reporter</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 0;
+            border-bottom: 1px solid #333;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 2rem;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .back-link {
+            color: #4a90e2;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s ease;
+        }
+
+        .back-link:hover {
+            color: #5ba3f5;
+            text-decoration: underline;
+        }
+
+        .workflow-section {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .workflow-section h2 {
+            margin-bottom: 20px;
+            color: #fff;
+            font-size: 1.5rem;
+        }
+
+        .workflow-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            padding: 40px 20px;
+            flex-wrap: wrap;
+        }
+
+        .workflow-node {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 20px 30px;
+            text-align: center;
+            min-width: 180px;
+            transition: all 0.3s ease;
+        }
+
+        .workflow-node:hover {
+            transform: translateY(-5px);
+            border-color: #e67e22;
+            box-shadow: 0 10px 30px rgba(230, 126, 34, 0.3);
+        }
+
+        .workflow-node h3 {
+            color: #e67e22;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        .workflow-node p {
+            color: #a0a0a0;
+            font-size: 0.85rem;
+        }
+
+        .workflow-arrow {
+            color: #e67e22;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .data-section {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .data-section h2 {
+            margin-bottom: 20px;
+            color: #fff;
+            font-size: 1.5rem;
+        }
+
+        .data-section h3 {
+            margin: 25px 0 15px 0;
+            color: #e67e22;
+            font-size: 1.2rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        thead {
+            background: rgba(230, 126, 34, 0.2);
+        }
+
+        th {
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            color: #fff;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        tbody tr {
+            transition: background 0.2s ease;
+        }
+
+        tbody tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .status {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status.fail {
+            background: rgba(231, 76, 60, 0.2);
+            color: #e74c3c;
+            border: 1px solid #e74c3c;
+        }
+
+        .github-link {
+            color: #4a90e2;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .github-link:hover {
+            color: #5ba3f5;
+            text-decoration: underline;
+        }
+
+        .issue-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .issue-card:hover {
+            border-color: rgba(230, 126, 34, 0.3);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .issue-card h4 {
+            color: #e67e22;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .issue-card .issue-id {
+            color: #a0a0a0;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .issue-card .issue-body {
+            color: #b0b0b0;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .issue-card .issue-body strong {
+            color: #e0e0e0;
+        }
+
+        .powered-by {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(230, 126, 34, 0.1);
+            border: 1px solid rgba(230, 126, 34, 0.3);
+            border-radius: 8px;
+            text-align: center;
+            color: #e67e22;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .workflow-diagram {
+                flex-direction: column;
+            }
+
+            .workflow-arrow {
+                transform: rotate(90deg);
+            }
+
+            table {
+                font-size: 0.85rem;
+            }
+
+            th, td {
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Agent 2 - Automated Bug Reporter</h1>
+            <a href="index.html" class="back-link">← Back to Portfolio</a>
+        </header>
+
+        <div class="workflow-section">
+            <h2>Workflow Diagram</h2>
+            <div class="workflow-diagram">
+                <div class="workflow-node">
+                    <h3>📊 Google Sheets</h3>
+                    <p>Failed test logged</p>
+                </div>
+                <div class="workflow-arrow">→</div>
+                <div class="workflow-node">
+                    <h3>🔍 Filter</h3>
+                    <p>Process & validate</p>
+                </div>
+                <div class="workflow-arrow">→</div>
+                <div class="workflow-node">
+                    <h3>🐛 GitHub Issues</h3>
+                    <p>Auto-create issue</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="data-section">
+            <h2>Sample Data Flow</h2>
+            
+            <h3>Google Sheets Input</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>TC ID</th>
+                        <th>Description</th>
+                        <th>Steps</th>
+                        <th>Expected Result</th>
+                        <th>Actual Result</th>
+                        <th>Priority</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>TC003</td>
+                        <td>Proceed to Checkout</td>
+                        <td>User clicks "Proceed to Checkout"</td>
+                        <td>Cart Review page loads</td>
+                        <td>404 Error</td>
+                        <td>High</td>
+                        <td><span class="status fail">Fail</span></td>
+                    </tr>
+                    <tr>
+                        <td>TC004</td>
+                        <td>Empty Cart</td>
+                        <td>User removes all items from cart</td>
+                        <td>"Your cart is empty" message appears</td>
+                        <td>Cart count still shows 1 after removal</td>
+                        <td>High</td>
+                        <td><span class="status fail">Fail</span></td>
+                    </tr>
+                    <tr>
+                        <td>TC046</td>
+                        <td>Saved Credit/Debit Card</td>
+                        <td>User views payment page</td>
+                        <td>Saved card displayed</td>
+                        <td>No saved card displayed</td>
+                        <td>High</td>
+                        <td><span class="status fail">Fail</span></td>
+                    </tr>
+                    <tr>
+                        <td>TC007</td>
+                        <td>Payment Declined</td>
+                        <td>User clicks on payment</td>
+                        <td>Payment error shown</td>
+                        <td>App crashes completely</td>
+                        <td>High</td>
+                        <td><span class="status fail">Fail</span></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>GitHub Issues Output</h3>
+            
+            <div class="issue-card">
+                <h4>Issue #7 — [BUG] Proceed to Checkout</h4>
+                <div class="issue-id"><a href="https://github.com/alliswell-coder/qa-ai-agent/issues/7" class="github-link" target="_blank">View on GitHub →</a></div>
+                <div class="issue-body">
+                    <strong>TC ID:</strong> TC003<br>
+                    <strong>Steps:</strong> User clicks "Proceed to Checkout"<br>
+                    <strong>Expected Result:</strong> Cart Review page loads<br>
+                    <strong>Actual Result:</strong> 404 Error<br>
+                    <strong>Priority:</strong> High
+                </div>
+            </div>
+
+            <div class="issue-card">
+                <h4>Issue #8 — [BUG] Empty Cart</h4>
+                <div class="issue-id"><a href="https://github.com/alliswell-coder/qa-ai-agent/issues/8" class="github-link" target="_blank">View on GitHub →</a></div>
+                <div class="issue-body">
+                    <strong>TC ID:</strong> TC004<br>
+                    <strong>Steps:</strong> User removes all items from cart<br>
+                    <strong>Expected Result:</strong> "Your cart is empty" message appears<br>
+                    <strong>Actual Result:</strong> Cart count still shows 1 after removal<br>
+                    <strong>Priority:</strong> High
+                </div>
+            </div>
+
+            <div class="issue-card">
+                <h4>Issue #9 — [BUG] Saved Credit/Debit Card</h4>
+                <div class="issue-id"><a href="https://github.com/alliswell-coder/qa-ai-agent/issues/9" class="github-link" target="_blank">View on GitHub →</a></div>
+                <div class="issue-body">
+                    <strong>TC ID:</strong> TC046<br>
+                    <strong>Steps:</strong> User views payment page<br>
+                    <strong>Expected Result:</strong> Saved card displayed<br>
+                    <strong>Actual Result:</strong> No saved card displayed<br>
+                    <strong>Priority:</strong> High
+                </div>
+            </div>
+
+            <div class="issue-card">
+                <h4>Issue #11 — [BUG] Payment Declined</h4>
+                <div class="issue-id"><a href="https://github.com/alliswell-coder/qa-ai-agent/issues/11" class="github-link" target="_blank">View on GitHub →</a></div>
+                <div class="issue-body">
+                    <strong>TC ID:</strong> TC007<br>
+                    <strong>Steps:</strong> User clicks on payment<br>
+                    <strong>Expected Result:</strong> Payment error shown<br>
+                    <strong>Actual Result:</strong> App crashes completely<br>
+                    <strong>Priority:</strong> High
+                </div>
+            </div>
+
+            <div class="powered-by">
+                ⚡ Powered by n8n + Google Sheets + GitHub
+            </div>
+        </div>
+    </div>
+</body>
+</html>

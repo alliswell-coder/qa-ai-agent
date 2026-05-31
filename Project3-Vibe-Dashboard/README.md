@@ -1,53 +1,60 @@
-# Project3 - Vibe Dashboard
+# Project3 - QA AI Agents Portfolio
 
-A modern QA Dashboard for tracking Amazon Checkout Flow test results.
+A professional portfolio showcasing three AI-powered QA automation agents.
+
+## Overview
+
+This portfolio page displays three intelligent QA automation agents designed to streamline quality assurance workflows:
+
+- **Agent 1**: QA Test Case Generator (LangFlow + Groq)
+- **Agent 2**: Automated Bug Reporter (n8n + Google Sheets + GitHub)
+- **Agent 3**: QA Dashboard (HTML + CSS + JavaScript + Vercel)
 
 ## Features
 
-- **Summary Cards**: Displays total test cases, pass/fail counts, and pass rate
-- **Failed Tests Table**: Detailed view of failed test cases with:
-  - TC ID
-  - Description
-  - Actual Result
-  - Priority
-  - GitHub Issue links
-- **Modern Dark Theme**: Clean, professional design with gradient background
-- **Responsive Design**: Works on desktop and mobile devices
+- **Portfolio Landing Page**: Modern dark theme with professional card-based layout
+- **Agent Cards**: Each agent displayed with description, tech stack, and navigation links
+- **Responsive Design**: Works seamlessly on desktop and mobile devices
+- **Interactive UI**: Hover effects and smooth transitions
 
-## Test Summary
+## Agents
 
-- **Total TCs**: 7
-- **Pass**: 2
-- **Fail**: 5
-- **Pass Rate**: 28%
+### Agent 1: QA Test Case Generator
+- **Description**: Paste any requirement and get structured test cases instantly
+- **Tech Stack**: LangFlow + Groq
+- **Status**: Coming Soon
 
-## Failed Tests
+### Agent 2: Automated Bug Reporter
+- **Description**: Log a failed test in Google Sheet, GitHub issue created automatically in 60 seconds
+- **Tech Stack**: n8n + Google Sheets + GitHub
+- **Status**: Coming Soon
 
-| TC ID | Description | Actual Result | Priority | GitHub Issue |
-|-------|-------------|---------------|----------|--------------|
-| TC003 | Proceed to Checkout | 404 Error | High | [Issue #7](https://github.com/alliswell-coder/qa-ai-agent/issues/7) |
-| TC004 | Empty Cart | Cart count wrong | High | [Issue #8](https://github.com/alliswell-coder/qa-ai-agent/issues/8) |
-| TC046 | Saved Credit Card | No card displayed | High | [Issue #9](https://github.com/alliswell-coder/qa-ai-agent/issues/9) |
-| TC007 | Payment Declined | App crashes | High | [Issue #11](https://github.com/alliswell-coder/qa-ai-agent/issues/11) |
+### Agent 3: QA Dashboard
+- **Description**: Live view of test execution results with pass/fail stats and GitHub issue links
+- **Tech Stack**: HTML + CSS + JavaScript + Vercel
+- **Status**: Available (View via portfolio page)
 
 ## How to Use
 
-1. Open `index.html` in a web browser
-2. View the dashboard with test results and failed test details
-3. Click on GitHub Issue links to view detailed bug reports
+1. Open `index.html` in a web browser to view the portfolio landing page
+2. Click on agent cards to navigate to individual agent pages
+3. Agent 3 (QA Dashboard) is available via the "View Dashboard" button
 
-## Color Scheme
+## File Structure
 
-- **Green**: Pass status
-- **Red**: Fail status
-- **Blue**: Total count
-- **Orange**: Pass rate
+```
+Project3-Vibe-Dashboard/
+├── index.html                    # Portfolio landing page
+├── agent3.html                   # QA Dashboard (Agent 3)
+├── README.md                     # This file
+└── prompt for vibe coding.md     # Original prompt
+```
 
 ## Technologies Used
 
-- HTML5
-- CSS3 (Flexbox, Grid, CSS Variables)
-- No external dependencies - pure HTML/CSS
+- **Portfolio Page**: HTML5, CSS3 (Flexbox, Grid, CSS Variables)
+- **QA Dashboard**: HTML5, CSS3, JavaScript
+- No external dependencies - pure HTML/CSS/JS
 
 ## Original Prompt
 
