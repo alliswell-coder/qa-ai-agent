@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "qa-test-cases": {
+      "command": "python",
+      "args": [
+        "server.py"
+      ],
+      "cwd": "C:\\Users\\karth\\qa-ai-agent\\Project4-MCP-TC5000\\server"
+    }
+  }
+}

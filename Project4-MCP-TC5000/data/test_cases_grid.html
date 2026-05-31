@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Cases Grid - Amazon Checkout Flow</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #e0e0e0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 0;
+            border-bottom: 1px solid #333;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .summary-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .summary-card h3 {
+            color: #a0a0a0;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .summary-card .value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #4a90e2;
+        }
+
+        .filter-section {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .filter-section select {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            padding: 10px 15px;
+            color: #e0e0e0;
+            font-size: 1rem;
+            margin-right: 10px;
+        }
+
+        .filter-section button {
+            background: #4a90e2;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .filter-section button:hover {
+            background: #357abd;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 20px;
+        }
+
+        .test-case-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .test-case-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .test-case-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .test-case-id {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #4a90e2;
+        }
+
+        .test-case-module {
+            background: rgba(74, 144, 226, 0.2);
+            color: #4a90e2;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .test-case-title {
+            font-size: 1.1rem;
+            color: #fff;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .test-case-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .info-item {
+            font-size: 0.9rem;
+        }
+
+        .info-item strong {
+            color: #a0a0a0;
+        }
+
+        .priority-high {
+            color: #e74c3c;
+        }
+
+        .priority-medium {
+            color: #f39c12;
+        }
+
+        .priority-low {
+            color: #2ecc71;
+        }
+
+        .type-positive {
+            color: #2ecc71;
+        }
+
+        .type-negative {
+            color: #e74c3c;
+        }
+
+        .type-edge {
+            color: #f39c12;
+        }
+
+        .type-performance {
+            color: #9b59b6;
+        }
+
+        .precondition {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            color: #b0b0b0;
+        }
+
+        .steps-container {
+            margin-top: 15px;
+        }
+
+        .steps-container h4 {
+            color: #a0a0a0;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .steps-list {
+            list-style: none;
+            font-size: 0.85rem;
+        }
+
+        .steps-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: #b0b0b0;
+        }
+
+        .steps-list li:last-child {
+            border-bottom: none;
+        }
+
+        .step-number {
+            color: #4a90e2;
+            font-weight: 600;
+            margin-right: 8px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.1);
+            color: #a0a0a0;
+        }
+
+        .result-section {
+            margin-top: 15px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 6px;
+        }
+
+        .result-section h4 {
+            color: #a0a0a0;
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+        }
+
+        .result-field {
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+        }
+
+        .result-field strong {
+            color: #a0a0a0;
+        }
+
+        .actual-result {
+            color: #e74c3c;
+        }
+
+        .defect-id {
+            color: #f39c12;
+        }
+
+        @media (max-width: 768px) {
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
+
+            .test-case-info {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Test Cases Grid - Amazon Checkout Flow</h1>
+            <p>5000 Test Cases Across 10 Modules</p>
+        </header>
+
+        <div class="summary">
+            <div class="summary-card">
+                <h3>Total Test Cases</h3>
+                <div class="value">5000</div>
+            </div>
+            <div class="summary-card">
+                <h3>Modules</h3>
+                <div class="value">10</div>
+            </div>
+            <div class="summary-card">
+                <h3>Login</h3>
+                <div class="value">500</div>
+            </div>
+            <div class="summary-card">
+                <h3>Cart</h3>
+                <div class="value">500</div>
+            </div>
+            <div class="summary-card">
+                <h3>Address</h3>
+                <div class="value">500</div>
+            </div>
+            <div class="summary-card">
+                <h3>Delivery</h3>
+                <div class="value">500</div>
+            </div>
+            <div class="summary-card">
+                <h3>Payment</h3>
+                <div class="value">500</div>
+            </div>
+            <div class="summary-card">
+                <h3>Order Review</h3>
+                <div class="value">500</div>
+            </div>
+            <div class="summary-card">
+                <h3>Order Confirmation</h3>
+                <div class="value">500</div>
+            </div>
+            <div class="summary-card">
+                <h3>Edge Cases</h3>
+                <div class="value">500</div>
+            </div>
+            <div class="summary-card">
+                <h3>Negative Cases</h3>
+                <div class="value">500</div>
+            </div>
+            <div class="summary-card">
+                <h3>Performance</h3>
+                <div class="value">500</div>
+            </div>
+        </div>
+
+        <div class="filter-section">
+            <select id="moduleFilter">
+                <option value="all">All Modules</option>
+                <option value="Login">Login</option>
+                <option value="Cart">Cart</option>
+                <option value="Address">Address</option>
+                <option value="Delivery">Delivery</option>
+                <option value="Payment">Payment</option>
+                <option value="Order Review">Order Review</option>
+                <option value="Order Confirmation">Order Confirmation</option>
+                <option value="Edge Cases">Edge Cases</option>
+                <option value="Negative Cases">Negative Cases</option>
+                <option value="Performance">Performance</option>
+            </select>
+            <select id="typeFilter">
+                <option value="all">All Types</option>
+                <option value="Positive">Positive</option>
+                <option value="Negative">Negative</option>
+                <option value="Edge">Edge</option>
+                <option value="Performance">Performance</option>
+            </select>
+            <select id="priorityFilter">
+                <option value="all">All Priorities</option>
+                <option value="High">High</option>
+                <option value="Medium">Medium</option>
+                <option value="Low">Low</option>
+            </select>
+            <button onclick="applyFilters()">Apply Filters</button>
+            <button onclick="resetFilters()">Reset</button>
+        </div>
+
+        <div class="grid-container" id="testCasesGrid">
+            <!-- Test cases will be loaded here -->
+        </div>
+    </div>
+
+    <script>
+        let allTestCases = [];
+
+        async function loadTestCases() {
+            try {
+                const response = await fetch('test_cases.json');
+                if (!response.ok) throw new Error('Network response was not ok');
+                allTestCases = await response.json();
+                displayTestCases(allTestCases);
+            } catch (error) {
+                console.error('Error loading test cases:', error);
+                // Load sample data if fetch fails
+                loadSampleData();
+            }
+        }
+
+        function loadSampleData() {
+            // Sample test case data as fallback
+            allTestCases = [
+                {
+                    "id": "TC0001",
+                    "title": "Login with valid credentials",
+                    "module": "Login",
+                    "priority": "High",
+                    "status": "Not Executed",
+                    "type": "Positive",
+                    "precondition": "User has a valid account",
+                    "steps": [
+                        {"step_number": 1, "action": "Open browser", "expected": "Browser opens"},
+                        {"step_number": 2, "action": "Navigate to amazon.com", "expected": "Homepage loads"},
+                        {"step_number": 3, "action": "Click Sign In", "expected": "Login page appears"},
+                        {"step_number": 4, "action": "Enter valid email", "expected": "Email accepted"},
+                        {"step_number": 5, "action": "Enter valid password", "expected": "Password accepted"},
+                        {"step_number": 6, "action": "Click Login button", "expected": "User logged in successfully"}
+                    ],
+                    "actual_result": "",
+                    "defect_id": ""
+                },
+                {
+                    "id": "TC0002",
+                    "title": "Login with invalid email",
+                    "module": "Login",
+                    "priority": "High",
+                    "status": "Not Executed",
+                    "type": "Negative",
+                    "precondition": "User has an invalid email",
+                    "steps": [
+                        {"step_number": 1, "action": "Open browser", "expected": "Browser opens"},
+                        {"step_number": 2, "action": "Navigate to amazon.com", "expected": "Homepage loads"},
+                        {"step_number": 3, "action": "Click Sign In", "expected": "Login page appears"},
+                        {"step_number": 4, "action": "Enter invalid email", "expected": "Email rejected"},
+                        {"step_number": 5, "action": "Enter valid password", "expected": "Password accepted"},
+                        {"step_number": 6, "action": "Click Login button", "expected": "Error message displayed"}
+                    ],
+                    "actual_result": "",
+                    "defect_id": ""
+                },
+                {
+                    "id": "TC0003",
+                    "title": "Login with invalid password",
+                    "module": "Login",
+                    "priority": "High",
+                    "status": "Not Executed",
+                    "type": "Negative",
+                    "precondition": "User has a valid account",
+                    "steps": [
+                        {"step_number": 1, "action": "Open browser", "expected": "Browser opens"},
+                        {"step_number": 2, "action": "Navigate to amazon.com", "expected": "Homepage loads"},
+                        {"step_number": 3, "action": "Click Sign In", "expected": "Login page appears"},
+                        {"step_number": 4, "action": "Enter valid email", "expected": "Email accepted"},
+                        {"step_number": 5, "action": "Enter invalid password", "expected": "Password rejected"},
+                        {"step_number": 6, "action": "Click Login button", "expected": "Error message displayed"}
+                    ],
+                    "actual_result": "",
+                    "defect_id": ""
+                },
+                {
+                    "id": "TC0051",
+                    "title": "Add single item to cart",
+                    "module": "Cart",
+                    "priority": "High",
+                    "status": "Not Executed",
+                    "type": "Positive",
+                    "precondition": "User is logged in",
+                    "steps": [
+                        {"step_number": 1, "action": "Navigate to product page", "expected": "Product page loads"},
+                        {"step_number": 2, "action": "Select quantity", "expected": "Quantity selected"},
+                        {"step_number": 3, "action": "Click Add to Cart", "expected": "Item added to cart"},
+                        {"step_number": 4, "action": "View cart", "expected": "Cart displays item"},
+                        {"step_number": 5, "action": "Verify item details", "expected": "Item details correct"}
+                    ],
+                    "actual_result": "",
+                    "defect_id": ""
+                },
+                {
+                    "id": "TC2001",
+                    "title": "Pay with saved credit card",
+                    "module": "Payment",
+                    "priority": "High",
+                    "status": "Not Executed",
+                    "type": "Positive",
+                    "precondition": "Saved card exists",
+                    "steps": [
+                        {"step_number": 1, "action": "Navigate to payment", "expected": "Payment page loads"},
+                        {"step_number": 2, "action": "Select saved card", "expected": "Card selected"},
+                        {"step_number": 3, "action": "Enter CVV", "expected": "CVV accepted"},
+                        {"step_number": 4, "action": "Place order", "expected": "Payment processed successfully"}
+                    ],
+                    "actual_result": "",
+                    "defect_id": ""
+                }
+            ];
+            displayTestCases(allTestCases);
+            document.getElementById('testCasesGrid').innerHTML += '<div style="grid-column: 1/-1; text-align: center; padding: 20px; color: #f39c12;"><p><strong>Note:</strong> Showing sample data. To view all 5000 test cases, open this file via a local server (e.g., python -m http.server)</p></div>';
+        }
+
+        function displayTestCases(testCases) {
+            const grid = document.getElementById('testCasesGrid');
+            grid.innerHTML = '';
+
+            // Display first 100 test cases for performance
+            const displayCases = testCases.slice(0, 100);
+
+            displayCases.forEach(tc => {
+                const card = document.createElement('div');
+                card.className = 'test-case-card';
+                card.dataset.module = tc.module;
+                card.dataset.type = tc.type;
+                card.dataset.priority = tc.priority;
+
+                const priorityClass = `priority-${tc.priority.toLowerCase()}`;
+                const typeClass = `type-${tc.type.toLowerCase().replace(' ', '-')}`;
+
+                card.innerHTML = `
+                    <div class="test-case-header">
+                        <div class="test-case-id">${tc.id}</div>
+                        <div class="test-case-module">${tc.module}</div>
+                    </div>
+                    <div class="test-case-title">${tc.title}</div>
+                    <div class="test-case-info">
+                        <div class="info-item"><strong>Priority:</strong> <span class="${priorityClass}">${tc.priority}</span></div>
+                        <div class="info-item"><strong>Type:</strong> <span class="${typeClass}">${tc.type}</span></div>
+                        <div class="info-item"><strong>Status:</strong> <span class="status-badge">${tc.status}</span></div>
+                    </div>
+                    <div class="precondition"><strong>Precondition:</strong> ${tc.precondition}</div>
+                    <div class="steps-container">
+                        <h4>Steps:</h4>
+                        <ul class="steps-list">
+                            ${tc.steps.map(step => `
+                                <li>
+                                    <span class="step-number">${step.step_number}</span>
+                                    <strong>Action:</strong> ${step.action} | 
+                                    <strong>Expected:</strong> ${step.expected}
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
+                    <div class="result-section">
+                        <h4>Results:</h4>
+                        <div class="result-field"><strong>Actual Result:</strong> <span class="actual-result">${tc.actual_result || 'Not executed'}</span></div>
+                        <div class="result-field"><strong>Defect ID:</strong> <span class="defect-id">${tc.defect_id || 'None'}</span></div>
+                    </div>
+                `;
+
+                grid.appendChild(card);
+            });
+
+            if (testCases.length > 100) {
+                const moreInfo = document.createElement('div');
+                moreInfo.style.gridColumn = '1 / -1';
+                moreInfo.style.textAlign = 'center';
+                moreInfo.style.padding = '20px';
+                moreInfo.style.color = '#a0a0a0';
+                moreInfo.innerHTML = `<p>Showing first 100 of ${testCases.length} test cases. Use the JSON file for complete data.</p>`;
+                grid.appendChild(moreInfo);
+            }
+        }
+
+        function applyFilters() {
+            const moduleFilter = document.getElementById('moduleFilter').value;
+            const typeFilter = document.getElementById('typeFilter').value;
+            const priorityFilter = document.getElementById('priorityFilter').value;
+
+            let filtered = allTestCases;
+
+            if (moduleFilter !== 'all') {
+                filtered = filtered.filter(tc => tc.module === moduleFilter);
+            }
+
+            if (typeFilter !== 'all') {
+                filtered = filtered.filter(tc => tc.type === typeFilter);
+            }
+
+            if (priorityFilter !== 'all') {
+                filtered = filtered.filter(tc => tc.priority === priorityFilter);
+            }
+
+            displayTestCases(filtered);
+        }
+
+        function resetFilters() {
+            document.getElementById('moduleFilter').value = 'all';
+            document.getElementById('typeFilter').value = 'all';
+            document.getElementById('priorityFilter').value = 'all';
+            displayTestCases(allTestCases);
+        }
+
+        // Load test cases when page loads
+        loadTestCases();
+    </script>
+</body>
+</html>
